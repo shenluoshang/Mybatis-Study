@@ -1,3 +1,11 @@
 # 项目排除路径
 /Mybatis_demo01/target/
 /Mybatis_demo02/target/
+
+
+### IntelliJ IDEA ###
+.idea
+#*.iws
+#*.iml
+#*.ipr
+#/logs/
