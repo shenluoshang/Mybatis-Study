@@ -6,7 +6,6 @@ import com.whz.mybatis.utils.SqlSessionUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
-import java.lang.annotation.Target;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -51,8 +50,10 @@ public class ParameterMapperTest {
     public void testGetUserByUsername(){
         SqlSession sqlSession = SqlSessionUtils.getSqlSession();
         ParameterMapper mapper = sqlSession.getMapper(ParameterMapper.class);
-        User user = mapper.getUserByUsername("admin");
-        System.out.println(user);
+        List<User> users = mapper.getUserByUsername("admin");
+        for (User user : users) {
+            System.out.println(user);
+        }
     }
 
     @Test

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whz.mybatis.mapper.SQLMapper">
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.whz.mybatis.pojo.User">
+        insert into t_user
+        values (null, #{username}, #{password}, #{age}, #{sex}, #{email});
+    </insert>
+
+
+    <delete id="deleteMore" parameterType="java.lang.String">
+        delete
+        from t_user
+        where t_user.id in (${ids})
+    </delete>
+
+
+    <select id="getUserByLike" resultType="com.whz.mybatis.pojo.User" parameterType="java.lang.String">
+        select * from t_user where username like '%${username}%';
+        <!--
+                select * from t_user where username like concat('%',#{username},'%');
+        -->
+        <!--
+                select * from t_user where username like "%"#{username}"%";
+        -->
+    </select>
+    <select id="getUserByTableName" resultType="com.whz.mybatis.pojo.User" parameterType="java.lang.String">
+        select *
+        from ${tableName};
+    </select>
+</mapper>

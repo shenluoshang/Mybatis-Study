@@ -29,7 +29,7 @@ public interface ParameterMapper {
     /**
      * 根据用户名查询用户信息
      */
-    User getUserByUsername(String username);
+    List<User> getUserByUsername(String username);
 
     /**
      * 查询所有员工信息
