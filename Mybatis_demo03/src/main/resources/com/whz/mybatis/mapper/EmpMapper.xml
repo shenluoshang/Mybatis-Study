@@ -4,7 +4,74 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.whz.mybatis.mapper.EmpMapper">
 
-    <select id="selectAllEmp" resultType="com.whz.mybatis.pojo.Emp">
-        select * from t_emp;
+    <resultMap id="empResultMap" type="Emp">
+        <id property="eid" column="eid"/>
+        <result property="empName" column="emp_name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+    </resultMap>
+
+
+    <select id="selectAllEmp" resultMap="empResultMap">
+        select *
+        from t_emp;
     </select>
+
+
+    <resultMap id="empAndDeptResultMapOne" type="Emp">
+        <id property="eid" column="eid"/>
+        <result property="empName" column="emp_name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+        <result property="dept.did" column="did"/>
+        <result property="dept.deptName" column="dept_name"/>
+    </resultMap>
+
+    <resultMap id="empAndDeptResultMapTwo" type="Emp">
+        <id property="eid" column="eid"/>
+        <result property="empName" column="emp_name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+        <!--
+           association:处理多对一的映射关系
+           property:需要处理多对一的映射关系的属性名
+           JavaType:该属性的类型
+        -->
+        <association property="dept" javaType="Dept">
+            <id property="did" column="did"/>
+            <result property="deptName" column="dept_name"/>
+        </association>
+    </resultMap>
+
+    <select id="selectEmpAndDept" resultMap="empAndDeptResultMapTwo"
+            parameterType="java.lang.Integer">
+        select *
+        from t_emp
+                 left join t_dept td on t_emp.did = td.did
+        where t_emp.eid = #{eid};
+    </select>
+
+    <resultMap id="empAndDeptByStepResultMap" type="Emp">
+        <id property="eid" column="eid"/>
+        <result property="empName" column="emp_name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+        <association property="dept"
+                     select="com.whz.mybatis.mapper.DeptMapper.selectEmpAndDeptByStepTwo"
+                     column="did">
+
+        </association>
+    </resultMap>
+
+    <select id="selectEmpAndDeptByStepOne" resultMap="empAndDeptByStepResultMap"
+            parameterType="java.lang.Integer">
+        select *
+        from t_emp
+        where eid = #{eid}
+    </select>
+
 </mapper>
